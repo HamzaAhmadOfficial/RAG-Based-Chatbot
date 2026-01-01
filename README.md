@@ -1,253 +1,205 @@
-# RAG Chatbot - Document Q&A System
+# RAG Chatbot – Document Question Answering System
 
-A powerful Retrieval-Augmented Generation (RAG) chatbot that allows users to upload PDF documents, ask questions, and receive accurate, context-aware answers powered by Hugging Face AI models.
+This project implements a Retrieval-Augmented Generation (RAG) based chatbot that allows users to upload PDF documents and ask questions about their content. The system retrieves relevant information from the uploaded documents and generates accurate, context-aware answers using Hugging Face language models.
 
-![RAG Chatbot](https://img.shields.io/badge/AI-Powered-blue) ![Python](https://img.shields.io/badge/Python-3.11-green) ![FastAPI](https://img.shields.io/badge/FastAPI-0.109-teal)
-
-## ✨ Features
-
-- 📄 **PDF Upload & Processing**: Upload PDF documents with automatic text extraction and chunking
-- 🔍 **Semantic Search**: FAISS vector database for fast, efficient document retrieval
-- 🤖 **AI-Powered Answers**: Hugging Face Mistral-7B for natural language generation
-- 💬 **Chat Interface**: Modern, responsive web interface with real-time interactions
-- 📚 **Source Citations**: Answers include references to source documents
-- 💾 **Chat History**: SQLite database for conversation persistence
-- 🎨 **Premium UI**: Dark theme with glassmorphism and smooth animations
-- 🪟 **Windows Compatible**: No C++ build tools required
-
-## 🏗️ Architecture
-
-```
-┌─────────────┐     ┌──────────────┐     ┌─────────────┐
-│   Frontend  │────▶│   FastAPI    │────▶│  Vector DB  │
-│  (HTML/CSS/ │     │   Backend    │     │   (FAISS)   │
-│     JS)     │◀────│              │◀────│             │
-└─────────────┘     └──────────────┘     └─────────────┘
-                           │
-                           ▼
-                    ┌──────────────┐
-                    │ Hugging Face │
-                    │     API      │
-                    │ (Embeddings  │
-                    │   & LLM)     │
-                    └──────────────┘
-```
-
-## 📋 Prerequisites
-
-- Python 3.11 or higher
-- Hugging Face API key ([Get one here](https://huggingface.co/settings/tokens))
-- 4GB+ RAM recommended
-
-## 🚀 Quick Start
-
-### 1. Clone or Download the Project
-
-```bash
-cd "d:/7TH SEMESTER/Computational Intelligence/Sem Project"
-```
-
-### 2. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Configure API Key
-
-Edit the `.env` file and add your Hugging Face API key:
-
-```env
-HUGGINGFACE_API_KEY=your_actual_api_key_here
-```
-
-### 4. Run First-Time Setup
-
-```bash
-python first_run.py
-```
-
-This will:
-- Create necessary directories
-- Verify dependencies
-- Check environment configuration
-
-### 5. Start the Application
-
-```bash
-python run_app.py
-```
-
-The application will:
-- Start the FastAPI server on `http://localhost:8000`
-- Automatically open your browser
-- Be ready to accept PDF uploads
-
-## 📖 Usage
-
-### Uploading Documents
-
-1. Click the **"Choose File"** button or drag-and-drop a PDF
-2. Wait for processing (you'll see a success message with chunk count)
-3. The chat interface will become active
-
-### Asking Questions
-
-1. Type your question in the input field
-2. Press **Enter** or click the send button
-3. The AI will retrieve relevant context and generate an answer
-4. View source citations below each answer
-
-### Managing Data
-
-- **Clear Database**: Click the "Clear" button to remove all documents and chat history
-- **Upload New Document**: Upload additional PDFs to expand the knowledge base
-
-## 🗂️ Project Structure
-
-```
-SEMESTER PROJECT/
-├── frontend/                 # Web interface
-│   ├── index.html           # Main HTML page
-│   ├── style.css            # Styling with animations
-│   └── script.js            # Client-side logic
-├── vector_db/               # ChromaDB storage (auto-generated)
-├── uploads/                 # Uploaded PDF files (auto-generated)
-├── chat_bot.py              # RAG implementation
-├── database.py              # Chat history management
-├── main.py                  # FastAPI application
-├── pdf_handler.py           # PDF processing
-├── vector_db.py             # Vector database operations
-├── run_app.py               # Application launcher
-├── first_run.py             # Setup script
-├── requirements.txt         # Python dependencies
-├── Dockerfile               # Container configuration
-├── .env                     # Environment variables
-└── README.md                # This file
-```
-
-## 🔧 API Endpoints
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/` | GET | Serve frontend interface |
-| `/upload-pdf` | POST | Upload and process PDF |
-| `/ask` | POST | Ask question about documents |
-| `/history` | GET | Retrieve chat history |
-| `/documents` | GET | List uploaded documents |
-| `/clear` | DELETE | Clear database |
-| `/health` | GET | Health check |
-
-## 🐳 Docker Deployment
-
-### Build Image
-
-```bash
-docker build -t rag-chatbot .
-```
-
-### Run Container
-
-```bash
-docker run -p 8000:8000 -e HUGGINGFACE_API_KEY=your_key rag-chatbot
-```
-
-## 🛠️ Configuration
-
-### Environment Variables
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `HUGGINGFACE_API_KEY` | Hugging Face API key | Required |
-| `DATABASE_PATH` | SQLite database path | `chat_history.db` |
-| `VECTOR_DB_PATH` | ChromaDB storage path | `./vector_db` |
-
-### Customization
-
-**Change LLM Model** (in `chat_bot.py`):
-```python
-self.llm_model = "mistralai/Mistral-7B-Instruct-v0.2"
-# Alternative: "google/flan-t5-large" for faster responses
-```
-
-**Adjust Chunk Size** (in `main.py`):
-```python
-pdf_handler = PDFHandler(chunk_size=1000, chunk_overlap=200)
-```
-
-**Modify Context Documents** (in `chat_bot.py`):
-```python
-result = chatbot.answer_question(question, n_context_docs=3)
-```
-
-## 🧪 Testing
-
-1. Upload a sample PDF (e.g., research paper, manual, policy document)
-2. Ask specific questions:
-   - "What is the main topic of this document?"
-   - "Summarize the key points"
-   - "What does it say about [specific topic]?"
-3. Verify source citations match the content
-
-## 🐛 Troubleshooting
-
-### "No module named 'X'" Error
-```bash
-pip install -r requirements.txt
-```
-
-### Hugging Face API Errors
-- Verify your API key is correct in `.env`
-- Check your API quota at https://huggingface.co
-- Some models may require approval - use alternatives if needed
-
-### FAISS/Vector Database Issues
-```bash
-# Clear vector database
-python -c "import shutil; shutil.rmtree('vector_db', ignore_errors=True)"
-```
-
-### Port Already in Use
-```bash
-# Change port in run_app.py
-uvicorn.run("main:app", host="0.0.0.0", port=8001)
-```
-
-## 📚 Technologies Used
-
-- **Backend**: FastAPI, Python 3.11
-- **AI/ML**: Hugging Face Transformers (Mistral-7B, sentence-transformers)
-- **Vector DB**: FAISS (Facebook AI Similarity Search)
-- **Database**: SQLite
-- **Frontend**: HTML5, CSS3, Vanilla JavaScript
-- **PDF Processing**: PyPDF2
-
-## 🤝 Contributing
-
-Contributions are welcome! Areas for improvement:
-- Add support for other document formats (DOCX, TXT)
-- Implement user authentication
-- Add conversation memory for multi-turn dialogues
-- Support for multiple languages
-- Fine-tune models for specific domains
-
-## 📄 License
-
-This project is open source and available for educational purposes.
-
-## 🙏 Acknowledgments
-
-- Hugging Face for providing free AI model APIs
-- Facebook AI Research for FAISS vector database
-- FastAPI for the excellent web framework
-
-## 📞 Support
-
-For issues or questions:
-1. Check the troubleshooting section
-2. Review the API documentation
-3. Verify your environment configuration
+This project is developed as a Computational Intelligence semester project.
 
 ---
 
-**Built with ❤️ for Computational Intelligence Course**
+## Features
+
+- PDF document upload and processing
+- Automatic text extraction and chunking
+- Semantic search using FAISS vector database
+- Question answering using Hugging Face language models
+- Web-based chat interface
+- Source-based answers using retrieved document context
+- Chat history stored in SQLite
+- Simple and clean user interface
+- Fully compatible with Windows
+
+---
+
+## System Architecture
+
+Frontend (HTML, CSS, JavaScript)
+        |
+        v
+FastAPI Backend
+        |
+        v
+Vector Database (FAISS)
+        |
+        v
+Hugging Face API (Embeddings and LLM)
+
+---
+
+## Requirements
+
+- Python 3.11 or higher
+- Hugging Face API key
+- Minimum 4 GB RAM recommended
+
+---
+
+## Setup Instructions
+
+1. Navigate to the project directory
+
+cd "d:/7TH SEMESTER/Computational Intelligence/Sem Project"
+
+2. Install dependencies
+
+pip install -r requirements.txt
+
+3. Configure environment variables
+
+Create or update the .env file and add:
+
+HUGGINGFACE_API_KEY=your_api_key_here
+
+4. First-time setup
+
+python first_run.py
+
+This step creates required directories, verifies dependencies, and validates configuration.
+
+5. Run the application
+
+python run_app.py
+
+The application will start at:
+http://localhost:8000
+
+---
+
+## Usage
+
+### Uploading Documents
+
+1. Open the web interface in a browser
+2. Upload a PDF document
+3. Wait for processing to complete
+4. The chat input becomes available after processing
+
+### Asking Questions
+
+1. Enter a question related to the uploaded document
+2. Submit the question
+3. Relevant document sections are retrieved
+4. The answer is generated using retrieved context
+
+---
+
+## Project Structure
+
+SEMESTER PROJECT/
+├── frontend/
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
+├── vector_db/
+├── uploads/
+├── chat_bot.py
+├── database.py
+├── main.py
+├── pdf_handler.py
+├── vector_db.py
+├── run_app.py
+├── first_run.py
+├── requirements.txt
+├── Dockerfile
+├── .env
+└── README.md
+
+---
+
+## API Endpoints
+
+/              GET     Load frontend interface
+/upload-pdf    POST    Upload and process PDF
+/ask           POST    Ask a question
+/history       GET     Retrieve chat history
+/documents     GET     List uploaded documents
+/clear         DELETE  Clear stored data
+/health        GET     Health check
+
+---
+
+## Docker Support
+
+Build image:
+docker build -t rag-chatbot .
+
+Run container:
+docker run -p 8000:8000 -e HUGGINGFACE_API_KEY=your_key rag-chatbot
+
+---
+
+## Configuration
+
+Change language model in chat_bot.py:
+
+self.llm_model = "mistralai/Mistral-7B-Instruct-v0.2"
+
+Modify chunk size in main.py:
+
+PDFHandler(chunk_size=1000, chunk_overlap=200)
+
+---
+
+## Testing
+
+1. Upload a PDF document
+2. Ask document-related questions
+3. Verify answers are relevant
+4. Test multiple queries on the same document
+
+---
+
+## Common Issues
+
+Missing dependencies:
+pip install -r requirements.txt
+
+Invalid API key:
+Check the .env file and Hugging Face access permissions
+
+Vector database issues:
+Delete the vector_db folder and restart the application
+
+Port already in use:
+Change the port number in run_app.py
+
+---
+
+## Technologies Used
+
+- Python 3.11
+- FastAPI
+- Hugging Face Transformers
+- FAISS
+- SQLite
+- HTML, CSS, JavaScript
+- PyPDF2
+
+---
+
+## Future Improvements
+
+- Support for additional document formats
+- User authentication
+- Multi-document conversation memory
+- Multi-language support
+- Domain-specific fine-tuning
+
+---
+
+## License
+
+This project is intended for educational and academic use.
+
+---
+
+Developed for the Computational Intelligence Course By Hamza Ahmad
