@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional RAG Assistant</title>
+    <meta name="description" content="Professional AI-powered document analysis and question answering system.">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">RAG Assistant</h1>
+                <p class="subtitle">Secure Document Analysis and Intelligence</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Upload Section -->
+            <section class="upload-section" id="uploadSection">
+                <div class="card">
+                    <h2>Document Upload</h2>
+                    <p class="description">Select a PDF document to begin the analysis.</p>
+
+                    <div class="upload-area" id="uploadArea">
+                        <input type="file" id="fileInput" accept=".pdf" hidden>
+                        <div class="upload-content">
+                            <svg class="upload-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <p class="upload-text">Drag and drop or click to select file</p>
+                            <p class="upload-hint">Support for PDF documents</p>
+                        </div>
+                    </div>
+
+                    <div class="upload-status" id="uploadStatus"></div>
+
+                    <button class="btn btn-primary" id="uploadBtn">
+                        Upload Document
+                    </button>
+                </div>
+            </section>
+
+            <!-- Chat Section -->
+            <section class="chat-section" id="chatSection">
+                <div class="chat-container">
+                    <!-- Chat Header -->
+                    <div class="chat-header">
+                        <div class="chat-info">
+                            <h3>Conversation</h3>
+                            <span class="status-indicator">
+                                <span class="status-dot"></span>
+                                System Ready
+                            </span>
+                        </div>
+                        <button class="btn btn-outline btn-sm" id="clearBtn">
+                            Clear History
+                        </button>
+                    </div>
+
+                    <!-- Chat Messages -->
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="welcome-message">
+                            <h3>Welcome to RAG Assistant</h3>
+                            <p>Please upload a document to begin the session. You can then ask specific questions
+                                regarding the document's content.</p>
+                            <div class="features">
+                                <div class="feature">
+                                    <span>Semantic Analysis</span>
+                                </div>
+                                <div class="feature">
+                                    <span>Knowledge Retrieval</span>
+                                </div>
+                                <div class="feature">
+                                    <span>Contextual Citations</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Input -->
+                    <div class="chat-input-container">
+                        <div class="chat-input-wrapper">
+                            <input type="text" id="questionInput" class="chat-input" placeholder="Enter your inquiry..."
+                                disabled>
+                            <button class="btn btn-send" id="sendBtn" disabled>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="input-hint">Press Enter to submit</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Powered by Hugging Face | Integrated with FastAPI and FAISS</p>
+        </footer>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+
+</html>
